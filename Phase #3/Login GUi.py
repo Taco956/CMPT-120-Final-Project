@@ -1,14 +1,36 @@
 import os
 import tkinter as tk
-
+from tkinter import messagebox
+username = "h"
+password = "h"
+adminUser = "Lance"
+adminPassword = "b"
 def login():
-    pass
+    enteredUser = entUsername.get()
+    enteredPassword = entPassword.get()
+    if(enteredPassword == adminPassword and enteredUser == adminUser):
+        messagebox.showinfo("Admin Login Success",f"      Welcome {adminUser}     ")
+        loginwindow.destroy()
+        mainMenuWindow()
+    elif(enteredPassword == password and enteredUser == username):
+        messagebox.showinfo("User Login Success","      Welcome      ")
+        loginwindow.destroy()
+        mainMenuWindow()
+    else:
+        messagebox.showinfo("User Login Fail","Please Enter a Correct Username and Password")
 
 def exit():
-    pass
+    messagebox.showinfo("Exit","Thank you for using the application")
+    quit()
+#Main Menu
+def mainMenuWindow():
+    mmWindow = tk.Tk()
+    mmWindow.title("Main Menu")
+    mmWindow.geometry("300x200")
+    mmWindow.config(bg="#2f4233") 
+    mmWindow.mainloop()
 
 #LOGIN WINDOW
-
 loginwindow = tk.Tk()
 loginwindow.title("Login")
 loginwindow.geometry("750x375")
@@ -37,7 +59,7 @@ loginTitle = tk.Label(Body, text = "Login")
 loginTitle.config(font=("Times New Roman",50))
 loginTitle.place(x=290,y=30)
 
-btnLogin = tk.Button(Body,text="Login",command=login,width=10)
+btnLogin = tk.Button(Body,text="Login",command=lambda:[login()],width=10)
 btnLogin.place(x=500,y=125)
 btnLogin.config(font=("Times New Roman", 30))
 
