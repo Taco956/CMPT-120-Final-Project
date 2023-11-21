@@ -42,19 +42,19 @@ def mainMenuWindow():
     btnExit.place(x=635, y=650)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnAdd = tk.Button(mainBody,text="Add",command=exit,width=11)
+    btnAdd = tk.Button(mainBody,text="Add",command=addTask,width=11)
     btnAdd.place(x=175, y=550)
     btnAdd.config(font=("Times New Roman", 28))
 
-    btnRemove = tk.Button(mainBody,text="Remove",command=exit,width=11)
+    btnRemove = tk.Button(mainBody,text="Remove",command=removeTask,width=11)
     btnRemove.place(x=475, y=550)
     btnRemove.config(font=("Times New Roman", 28))
 
-    btnEdit = tk.Button(mainBody,text="Edit",command=exit,width=11)
+    btnEdit = tk.Button(mainBody,text="Edit",command=editTask,width=11)
     btnEdit.place(x=775, y=550)
     btnEdit.config(font=("Times New Roman", 28))
 
-    btnSearch = tk.Button(mainBody,text="Search",command=exit,width=11)
+    btnSearch = tk.Button(mainBody,text="Search",command=searchTask,width=11)
     btnSearch.place(x=1075, y=550)
     btnSearch.config(font=("Times New Roman", 28))
 
@@ -81,15 +81,15 @@ def adminMenu():
     btnExit.place(x=550,y=250)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnRemoveUser = tk.Button(adminBody,text="Remove User",command=exit,width=10)
+    btnRemoveUser = tk.Button(adminBody,text="Remove User",command=removeUser,width=10)
     btnRemoveUser.place(x=550,y=50)
     btnRemoveUser.config(font=("Times New Roman", 28))
 
-    btnUpdateAdmin = tk.Button(adminBody,text="Update Admin",command=exit,width=10)
+    btnUpdateAdmin = tk.Button(adminBody,text="Update Admin",command=UpdateAdmin,width=10)
     btnUpdateAdmin.place(x=300,y=50)
     btnUpdateAdmin.config(font=("Times New Roman", 28))
 
-    btnAddUser = tk.Button(adminBody,text="Add User",command=exit,width=10)
+    btnAddUser = tk.Button(adminBody,text="Add User",command=addUser,width=10)
     btnAddUser.place(x=50,y=50)
     btnAddUser.config(font=("Times New Roman", 28))
 
@@ -170,7 +170,7 @@ def removeUser():
 
     btnRemoveUser = tk.Button(removeUserBody,text="Remove User",command=exit,width=10, height=2)
     btnRemoveUser.place(x=750,y=50)
-    btnRemove.config(font=("Times New Roman", 28))
+    btnRemoveUser.config(font=("Times New Roman", 28))
 
     lblAddTitle = tk.Label(removeUserBody,text="What user would you like to remove?")
     lblAddTitle.config(font=("Times New Roman",24))
