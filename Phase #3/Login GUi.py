@@ -20,7 +20,7 @@ def login():
         loginwindow.destroy()
         adminMenu()
     elif(success and row[0]!='1'):
-        messagebox.showinfo("User Login Success","      Welcome      ")
+        messagebox.showinfo("User Login Success",f"      Welcome {enteredUser}     ")
         loginwindow.destroy()
         mainMenuWindow()
     else:
@@ -44,7 +44,7 @@ def mainMenuWindow():
 
     lblMainTitle = tk.Label(mainBody,text="Main Menu")
     lblMainTitle.config(font=("Times New Roman",40))
-    lblMainTitle.place(x=650,y=50)
+    lblMainTitle.place(x=630,y=50)
 
     btnExit = tk.Button(mainBody,text="Exit",command=exit,width=10)
     btnExit.place(x=635, y=650)
@@ -66,12 +66,12 @@ def mainMenuWindow():
     btnSearch.place(x=1075, y=550)
     btnSearch.config(font=("Times New Roman", 28))
 
-    lblUserList = tk.Label(mainBody, text="Calendar")
-    lblUserList.place(x = 200, y =200)
+    lblUserList = tk.Label(mainBody, text="Calendar", width=15)
+    lblUserList.place(x = 600, y =150)
     lblUserList.config(font=("Times New Roman", 28))
 
-    txtUserList = tk.Text(mainBody, height=10, width=25)
-    txtUserList.place(x=200, y = 300)
+    txtUserList = tk.Text(mainBody, height=20, width=142)
+    txtUserList.place(x=175, y = 200)
 
     mainWindow.mainloop()
 
@@ -160,7 +160,7 @@ def addUserWin():
 
 
 #Remove User Below
-def removeUser():
+def removeUserWin():
     removeUserWindow = tk.Tk()
     removeUserWindow.title("Remove User")
     removeUserWindow.geometry("1000x500")
