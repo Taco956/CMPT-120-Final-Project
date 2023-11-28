@@ -26,11 +26,12 @@ def login():
     else:
         messagebox.showinfo("User Login Fail","Please Enter a Correct Username and Password")
 
+#Function to Exit the Program With Message
 def exit():
     messagebox.showinfo("Exit","Thank you for using the application")
     quit()
 
-#Main Menu
+#Main Menu Window
 def mainMenuWindow():
     #Main Menu Below
     mainWindow = tk.Tk()
@@ -49,19 +50,19 @@ def mainMenuWindow():
     btnExit.place(x=635, y=650)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnAdd = tk.Button(mainBody,text="Add",command=addTask,width=11)
+    btnAdd = tk.Button(mainBody,text="Add",command=addTaskWin,width=11)
     btnAdd.place(x=175, y=550)
     btnAdd.config(font=("Times New Roman", 28))
 
-    btnRemove = tk.Button(mainBody,text="Remove",command=removeTask,width=11)
+    btnRemove = tk.Button(mainBody,text="Remove",command=removeTaskWin,width=11)
     btnRemove.place(x=475, y=550)
     btnRemove.config(font=("Times New Roman", 28))
 
-    btnEdit = tk.Button(mainBody,text="Edit",command=editTask,width=11)
+    btnEdit = tk.Button(mainBody,text="Edit",command=editTaskWin,width=11)
     btnEdit.place(x=775, y=550)
     btnEdit.config(font=("Times New Roman", 28))
 
-    btnSearch = tk.Button(mainBody,text="Search",command=searchTask,width=11)
+    btnSearch = tk.Button(mainBody,text="Search",command=searchTaskWin,width=11)
     btnSearch.place(x=1075, y=550)
     btnSearch.config(font=("Times New Roman", 28))
 
@@ -74,7 +75,7 @@ def mainMenuWindow():
 
     mainWindow.mainloop()
 
-#ADMIN WINDOW NOW
+#Admin Window 
 def adminMenu():
     adminWindow = tk.Tk()
     adminWindow.title("Admin Window")
@@ -88,15 +89,15 @@ def adminMenu():
     btnExit.place(x=550,y=250)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnRemoveUser = tk.Button(adminBody,text="Remove User",command=removeUser,width=10)
+    btnRemoveUser = tk.Button(adminBody,text="Remove User",command=removeUserWin,width=10)
     btnRemoveUser.place(x=550,y=50)
     btnRemoveUser.config(font=("Times New Roman", 28))
 
-    btnUpdateAdmin = tk.Button(adminBody,text="Update Admin",command=UpdateAdmin,width=10)
+    btnUpdateAdmin = tk.Button(adminBody,text="Update Admin",command=updateAdminWin,width=10)
     btnUpdateAdmin.place(x=300,y=50)
     btnUpdateAdmin.config(font=("Times New Roman", 28))
 
-    btnAddUser = tk.Button(adminBody,text="Add User",command=addUser,width=10)
+    btnAddUser = tk.Button(adminBody,text="Add User",command=addUserWin,width=10)
     btnAddUser.place(x=50,y=50)
     btnAddUser.config(font=("Times New Roman", 28))
 
@@ -113,8 +114,8 @@ def adminMenu():
 
     adminWindow.mainloop()
 
-#ADD USER BELOW
-def addUser():
+#Add User GUI
+def addUserWin():
     addUserWindow = tk.Tk()
     addUserWindow.title("Add User")
     addUserWindow.geometry("1000x500")
@@ -202,8 +203,8 @@ def removeUser():
 
     removeUserWindow.mainloop()
 
-#Update Admin Below
-def UpdateAdmin():
+#Update Admin GUI
+def updateAdminWin():
     updateAdminWindow = tk.Tk()
     updateAdminWindow.title("Update Admin")
     updateAdminWindow.geometry("1000x500")
@@ -220,7 +221,7 @@ def UpdateAdmin():
     btnExit.place(x=750,y=350)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnAddUser = tk.Button(updateAdminBody,text="Update Admin",command=exit,width=10, height=2)
+    btnAddUser = tk.Button(updateAdminBody,text="Update Admin",command=updateAdmin,width=10, height=2)
     btnAddUser.place(x=750,y=50)
     btnAddUser.config(font=("Times New Roman", 28))
 
@@ -232,6 +233,7 @@ def UpdateAdmin():
     lblUsername.config(font=("Times New Roman",24))
     lblUsername.place(x=50,y=225)
 
+    global entUsername
     entUsername = tk.Entry(updateAdminBody)
     entUsername.config(font=("Times New Roman", 20))
     entUsername.place(x=50,y=275,width=400,height=60)
@@ -240,6 +242,7 @@ def UpdateAdmin():
     lblPassword.config(font=("Times New Roman",24))
     lblPassword.place(x=50,y=350)
 
+    global entPassword
     entPassword = tk.Entry(updateAdminBody)
     entPassword.config(font=("Times New Roman", 20))
     entPassword.place(x=50,y=400,width=400,height=60)
@@ -248,14 +251,26 @@ def UpdateAdmin():
     lblOldUser.config(font=("Times New Roman",24))
     lblOldUser.place(x=50,y=100)
 
+    global entOldUser
     entOldUser = tk.Entry(updateAdminBody)
     entOldUser.config(font=("Times New Roman", 20))
     entOldUser.place(x=50,y=150,width=400,height=60)
 
     updateAdminWindow.mainloop()
 
-#Add Task Below
-def addTask():
+#Update Admin Function
+def updateAdmin():
+    oldAdminUser = entOldUser.get()
+    print(oldAdminUser)
+    if oldAdminUser == adminUser:
+        adminUser = entUsername.get()
+        global adminPassword
+        adminPassword = entPassword.get()
+        messagebox.showinfo("Admin Successfully Updated")
+    else:
+        messagebox.showinfo("Entered username does not match old username")
+#Add Task GUI
+def addTaskWin():
     addWindow = tk.Tk()
     addWindow.title("Add Task")
     addWindow.geometry("1000x500")
@@ -310,8 +325,8 @@ def addTask():
 
     addWindow.mainloop()
 
-#Remove Task Below
-def removeTask():
+#Remove Task GUI
+def removeTaskWin():
     removeWindow = tk.Tk()
     removeWindow.title("Remove Task")
     removeWindow.geometry("1000x500")
@@ -355,8 +370,8 @@ def removeTask():
 
     removeWindow.mainloop()
 
-#Edit Task Below
-def editTask():
+#Edit Task GUI
+def editTaskWin():
     editWindow = tk.Tk()
     editWindow.title("Edit Task")
     editWindow.geometry("1000x750")
@@ -431,8 +446,8 @@ def editTask():
 
     editWindow.mainloop()
 
-#Search Task Below
-def searchTask():
+#Search Task GUI
+def searchTaskWin():
     searchWindow = tk.Tk()
     searchWindow.title("Search Task")
     searchWindow.geometry("1000x750")
@@ -499,7 +514,7 @@ def searchTask():
 
     searchWindow.mainloop()
 
-#LOGIN WINDOW
+#Login GUI
 loginwindow = tk.Tk()
 loginwindow.title("Login")
 loginwindow.geometry("750x375")
@@ -528,7 +543,7 @@ loginTitle = tk.Label(Body, text = "Login")
 loginTitle.config(font=("Times New Roman",50))
 loginTitle.place(x=290,y=30)
 
-btnLogin = tk.Button(Body,text="Login",command=lambda:[login()],width=10)
+btnLogin = tk.Button(Body,text="Login",command=login,width=10)
 btnLogin.place(x=500,y=125)
 btnLogin.config(font=("Times New Roman", 30))
 
