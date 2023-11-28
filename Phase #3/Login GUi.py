@@ -1,18 +1,25 @@
 import os
 import tkinter as tk
 from tkinter import messagebox
-username = "h"
-password = "h"
-adminUser = "Lance"
-adminPassword = "b"
+import csv
+
+
 def login():
     enteredUser = entUsername.get()
     enteredPassword = entPassword.get()
-    if(enteredPassword == adminPassword and enteredUser == adminUser):
-        messagebox.showinfo("Admin Login Success",f"      Welcome {adminUser}     ")
+    csvfile=open("users.csv","r")
+    reader = csv.reader(csvfile)
+    for row in reader:
+        if row[1] == enteredUser and row[2] == enteredPassword:
+           success = True
+           break
+        else:
+           success = False
+    if(success and row[0]=='1'):
+        messagebox.showinfo("Admin Login Success",f"      Welcome {enteredUser}     ")
         loginwindow.destroy()
         adminMenu()
-    elif(enteredPassword == password and enteredUser == username):
+    elif(success and row[0]!='1'):
         messagebox.showinfo("User Login Success","      Welcome      ")
         loginwindow.destroy()
         mainMenuWindow()
@@ -149,6 +156,7 @@ def addUser():
     entPassword.place(x=50,y=350,width=400,height=60)
 
     addUserWindow.mainloop()
+
 
 #Remove User Below
 def removeUser():
