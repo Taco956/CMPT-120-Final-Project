@@ -226,8 +226,8 @@ def removeUser():
     df = df.drop(df[df.username == entUsername.get()].index)
     df.to_csv('users.csv', index=False)
     os.remove('%s.csv' % entUsername.get())
-    messagebox.showinfo("Remove User Success",f"     Successfully Removed User {entUsername}    ")
-    
+    messagebox.showinfo("Remove User Success",f"     Successfully Removed User    ")
+
 #Update Admin GUI
 def updateAdminWin():
     updateAdminWindow = tk.Tk()
