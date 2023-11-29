@@ -231,7 +231,7 @@ def removeUser():
     df = pd.read_csv('users.csv')
     df = df.drop(df[df.username == entUsername.get()].index)
     df.to_csv('users.csv', index=False)
-
+    os.remove(open("%s.csv" % entUsername))
 
 #Update Admin GUI
 def updateAdminWin():
@@ -263,6 +263,7 @@ def updateAdminWin():
     lblUsername.config(font=("Times New Roman",24))
     lblUsername.place(x=50,y=225)
 
+    global entUsername
     entUsername = tk.Entry(updateAdminBody)
     entUsername.config(font=("Times New Roman", 20))
     entUsername.place(x=50,y=275,width=400,height=60)
@@ -271,6 +272,7 @@ def updateAdminWin():
     lblPassword.config(font=("Times New Roman",24))
     lblPassword.place(x=50,y=350)
 
+    global entPassword
     entPassword = tk.Entry(updateAdminBody)
     entPassword.config(font=("Times New Roman", 20))
     entPassword.place(x=50,y=400,width=400,height=60)
@@ -287,7 +289,11 @@ def updateAdminWin():
 
 #Update Admin Function
 def updateAdmin():
-    pass
+    df = pd.read_csv('users.csv')
+    df.iat[0,1] = entUsername.get()
+    df.iat[0,2] = entPassword.get()
+    df.to_csv('users.csv', index=False)
+
 #Add Task GUI
 def addTaskWin():
     addWindow = tk.Tk()
