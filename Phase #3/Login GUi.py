@@ -15,6 +15,8 @@ def login():
            break
         else:
            success = False
+    global currentUser
+    currentUser=enteredUser
     if(success and row[0]=='1'):
         messagebox.showinfo("Admin Login Success",f"      Welcome {enteredUser}     ")
         loginwindow.destroy()
@@ -312,7 +314,7 @@ def addTaskWin():
     btnExit.place(x=750,y=350)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnAddUser = tk.Button(addBody,text="Add Task",command=exit,width=10, height=2)
+    btnAddUser = tk.Button(addBody,text="Add Task",command=addTask,width=10, height=2)
     btnAddUser.place(x=750,y=50)
     btnAddUser.config(font=("Times New Roman", 28))
 
@@ -320,6 +322,7 @@ def addTaskWin():
     lblTaskName.config(font=("Times New Roman",24))
     lblTaskName.place(x=50,y=50)
 
+    global entTaskName
     entTaskName = tk.Entry(addBody)
     entTaskName.config(font=("Times New Roman", 20))
     entTaskName.place(x=50,y=100,width=400,height=60)
@@ -328,6 +331,7 @@ def addTaskWin():
     lblDate.config(font=("Times New Roman",24))
     lblDate.place(x=50,y=200)
 
+    global entDate
     entDate = tk.Entry(addBody)
     entDate.config(font=("Times New Roman", 20))
     entDate.place(x=50,y=250,width=150,height=60)
@@ -336,6 +340,7 @@ def addTaskWin():
     lblDuration.config(font=("Times New Roman",24))
     lblDuration.place(x=300,y=200)
 
+    global entDuration
     entDuration = tk.Entry(addBody)
     entDuration.config(font=("Times New Roman", 20))
     entDuration.place(x=300,y=250,width=300,height=60)
@@ -344,11 +349,19 @@ def addTaskWin():
     lblDesc.config(font=("Times New Roman",24))
     lblDesc.place(x=50,y=350)
 
+    global entDesc
     entDesc = tk.Entry(addBody)
     entDesc.config(font=("Times New Roman", 20))
     entDesc.place(x=50,y=400,width=600,height=60)
 
     addWindow.mainloop()
+
+def addTask():
+    with open('%s.csv' % currentUser,'a',newline='') as taskcsv:
+        writer=csv.writer(taskcsv)
+        newRow=[entTaskName.get(),entDate.get(),entDuration.get(),entDesc.get()]
+        writer.writerow(newRow)
+    messagebox.showinfo("Add Task Success",f"     Successfully Added New Task     ")
 
 #Remove Task GUI
 def removeTaskWin():
