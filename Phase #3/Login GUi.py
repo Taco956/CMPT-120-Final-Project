@@ -35,7 +35,6 @@ def exit():
 
 #Main Menu Window
 def mainMenuWindow():
-    #Main Menu Below
     mainWindow = tk.Tk()
     mainWindow.title("Main Menu")
     mainWindow.geometry("1500x750")
@@ -118,7 +117,6 @@ def adminMenu():
 
 #Add User GUI
 def addUserWin():
-
     addUserWindow = tk.Tk()
     addUserWindow.title("Add User")
     addUserWindow.geometry("1000x500")
@@ -178,10 +176,6 @@ def addUser():
         csvwriter.writerow(field)
     messagebox.showinfo("Add User Success",f"     Successfully Added New User     ")
 
-
-
-
-
 #Remove User Below
 def removeUserWin():
     removeUserWindow = tk.Tk()
@@ -228,12 +222,13 @@ def removeUserWin():
 
     removeUserWindow.mainloop()
 
-
+#Removes selected user and deletes their associated csv file
 def removeUser():
     df = pd.read_csv('users.csv')
     df = df.drop(df[df.username == entUsername.get()].index)
     df.to_csv('users.csv', index=False)
-    os.remove(open("%s.csv" % entUsername))
+    os.remove('%s.csv' % entUsername.get())
+    messagebox.showinfo("Remove User Success",f"     Successfully Removed User    ")
 
 #Update Admin GUI
 def updateAdminWin():
@@ -291,10 +286,11 @@ def updateAdminWin():
 
 #Update Admin Function
 def updateAdmin():
-    df = pd.read_csv('users.csv')
+    df = pd.read_csv('users.csv')#read
     df.iat[0,1] = entUsername.get()
     df.iat[0,2] = entPassword.get()
-    df.to_csv('users.csv', index=False)
+    df.to_csv('users.csv', index=False)#set changes
+    messagebox.showinfo("Admin Update Success",f"     Successfully Updated Admin     ")
 
 #Add Task GUI
 def addTaskWin():
