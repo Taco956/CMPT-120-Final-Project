@@ -124,7 +124,7 @@ def addUserWin():
     addUserBody = tk.Frame(addUserWindow,bg='#536878',height=500,width=1000)
     addUserBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(addUserBody,text="Main Menu",command=exit,width=10, height=2)
+    btnMainMenu = tk.Button(addUserBody,text="Main Menu",command=adminMenu,width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -132,7 +132,7 @@ def addUserWin():
     btnExit.place(x=750,y=350)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnAddUser = tk.Button(addUserBody,text="Add User",command=exit,width=10, height=2)
+    btnAddUser = tk.Button(addUserBody,text="Add User",command=addUser,width=10, height=2)
     btnAddUser.place(x=750,y=50)
     btnAddUser.config(font=("Times New Roman", 28))
 
@@ -144,6 +144,7 @@ def addUserWin():
     lblUsername.config(font=("Times New Roman",24))
     lblUsername.place(x=50,y=150)
 
+    global entUsername
     entUsername = tk.Entry(addUserBody)
     entUsername.config(font=("Times New Roman", 20))
     entUsername.place(x=50,y=200,width=400,height=60)
@@ -151,16 +152,35 @@ def addUserWin():
     lblPassword = tk.Label(addUserBody,text="Password:")
     lblPassword.config(font=("Times New Roman",24))
     lblPassword.place(x=50,y=300)
-
+    
+    global entPassword
     entPassword = tk.Entry(addUserBody)
     entPassword.config(font=("Times New Roman", 20))
     entPassword.place(x=50,y=350,width=400,height=60)
 
     addUserWindow.mainloop()
 
+def addUser():
+    rowCount=0
+    with open('users.csv','a',newline='') as usercsv:
+        for row in open('users.csv'):
+            rowCount+=1
+        writer=csv.writer(usercsv)
+        newRow=['0',entUsername.get(),entPassword.get()]
+        writer.writerow(newRow)
+    fileName = "%s.csv" % entUsername.get()
+    field=['Task Name', 'Task Date', 'Task Duration', 'Task Description']
+    with open(fileName,'w') as newcsv:
+        csvwriter = csv.writer(newcsv)
+        csvwriter.writerow(field)
+    messagebox.showinfo("Add User Success",f"     Successfully Added New User     ")
+
+
+
+
 
 #Remove User Below
-def removeUser():
+def removeUserWin():
     removeUserWindow = tk.Tk()
     removeUserWindow.title("Remove User")
     removeUserWindow.geometry("1000x500")
@@ -169,7 +189,7 @@ def removeUser():
     removeUserBody = tk.Frame(removeUserWindow,bg='#536878',height=500,width=1000)
     removeUserBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(removeUserBody,text="Main Menu",command=exit,width=10, height=2)
+    btnMainMenu = tk.Button(removeUserBody,text="Main Menu",command=adminMenu,width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -177,7 +197,7 @@ def removeUser():
     btnExit.place(x=750,y=350)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnRemoveUser = tk.Button(removeUserBody,text="Remove User",command=exit,width=10, height=2)
+    btnRemoveUser = tk.Button(removeUserBody,text="Remove User",command=removeUser,width=10, height=2)
     btnRemoveUser.place(x=750,y=50)
     btnRemoveUser.config(font=("Times New Roman", 28))
 
@@ -189,6 +209,7 @@ def removeUser():
     lblUsername.config(font=("Times New Roman",24))
     lblUsername.place(x=50,y=150)
 
+    global entUsername
     entUsername = tk.Entry(removeUserBody)
     entUsername.config(font=("Times New Roman", 20))
     entUsername.place(x=50,y=200,width=400,height=60)
@@ -197,11 +218,18 @@ def removeUser():
     lblPassword.config(font=("Times New Roman",24))
     lblPassword.place(x=50,y=300)
 
+    global entPassword
     entPassword = tk.Entry(removeUserBody)
     entPassword.config(font=("Times New Roman", 20))
     entPassword.place(x=50,y=350,width=400,height=60)
 
     removeUserWindow.mainloop()
+
+def removeUser():
+    for row in open('users.csv','r'):
+        if row[1] == entUsername.get() and row[2] == entPassword.get():
+            csv.writer(open('users.csv', 'w')).writerow(row)
+    os.remove('%s.csv' % entUsername.get())
 
 #Update Admin GUI
 def updateAdminWin():
@@ -233,7 +261,6 @@ def updateAdminWin():
     lblUsername.config(font=("Times New Roman",24))
     lblUsername.place(x=50,y=225)
 
-    global entUsername
     entUsername = tk.Entry(updateAdminBody)
     entUsername.config(font=("Times New Roman", 20))
     entUsername.place(x=50,y=275,width=400,height=60)
@@ -242,7 +269,6 @@ def updateAdminWin():
     lblPassword.config(font=("Times New Roman",24))
     lblPassword.place(x=50,y=350)
 
-    global entPassword
     entPassword = tk.Entry(updateAdminBody)
     entPassword.config(font=("Times New Roman", 20))
     entPassword.place(x=50,y=400,width=400,height=60)
@@ -251,7 +277,6 @@ def updateAdminWin():
     lblOldUser.config(font=("Times New Roman",24))
     lblOldUser.place(x=50,y=100)
 
-    global entOldUser
     entOldUser = tk.Entry(updateAdminBody)
     entOldUser.config(font=("Times New Roman", 20))
     entOldUser.place(x=50,y=150,width=400,height=60)
@@ -260,15 +285,7 @@ def updateAdminWin():
 
 #Update Admin Function
 def updateAdmin():
-    oldAdminUser = entOldUser.get()
-    print(oldAdminUser)
-    if oldAdminUser == adminUser:
-        adminUser = entUsername.get()
-        global adminPassword
-        adminPassword = entPassword.get()
-        messagebox.showinfo("Admin Successfully Updated")
-    else:
-        messagebox.showinfo("Entered username does not match old username")
+    pass
 #Add Task GUI
 def addTaskWin():
     addWindow = tk.Tk()

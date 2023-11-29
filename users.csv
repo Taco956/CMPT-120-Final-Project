@@ -1,3 +1,5 @@
-id,username,password
+adminValue,username,password
 1,admin,admin
-2,matt,abc
+0,tim,tim
+0,matt,abc
+0,lance,kt
