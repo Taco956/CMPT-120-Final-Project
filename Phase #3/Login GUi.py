@@ -2,6 +2,7 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 import csv
+import pandas as pd
 
 def login():
     enteredUser = entUsername.get()
@@ -225,11 +226,12 @@ def removeUserWin():
 
     removeUserWindow.mainloop()
 
+
 def removeUser():
-    for row in open('users.csv','r'):
-        if row[1] == entUsername.get() and row[2] == entPassword.get():
-            csv.writer(open('users.csv', 'w')).writerow(row)
-    os.remove('%s.csv' % entUsername.get())
+    df = pd.read_csv('users.csv')
+    df = df.drop(df[df.username == entUsername.get()].index)
+    df.to_csv('users.csv', index=False)
+
 
 #Update Admin GUI
 def updateAdminWin():
