@@ -112,8 +112,11 @@ def adminMenu():
     lblUserList.place(x = 330, y =160)
     lblUserList.config(font=("Times New Roman", 28))
 
-    txtUserList = tk.Text(adminBody, height=10, width=25)
+    txtUserList = tk.Text(adminBody, height=10, width=28)
     txtUserList.place(x=300, y = 220)
+    with open("users.csv", "r") as f:
+        data = f.read()
+        txtUserList.insert("1.0", data)
 
     adminWindow.mainloop()
 
@@ -127,7 +130,7 @@ def addUserWin():
     addUserBody = tk.Frame(addUserWindow,bg='#536878',height=500,width=1000)
     addUserBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(addUserBody,text="Admin Menu",command=exit,width=10, height=2)
+    btnMainMenu = tk.Button(addUserBody,text="Admin Menu",command=addUserWindow.destroy,width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -405,9 +408,17 @@ def removeTaskWin():
     removeWindow.mainloop()
 
 def removeTask():
+    counter = 0
+    with open ('%s.csv' % CURRENTUSER) as file:
+        content = csv.reader(file)
+        for lines in content:
+            if(lines[0] != entTaskName.get() and lines[1] != entDate.get()):
+                counter = counter + 1
+    print(counter)
+    counter = counter - 1
     df = pd.read_csv('%s.csv' % CURRENTUSER)
-    df = df.drop(df.loc[(df['Task Name'] == entTaskName.get()) & (df['Task Date'] == entDate.get())])
-    df.to_csv('users.csv', index=False)
+    df = df.drop(counter, axis = 'index')
+    df.to_csv('%s.csv' % CURRENTUSER, index=False)
 
 #Edit Task GUI
 def editTaskWin():
@@ -493,17 +504,16 @@ def editTaskWin():
 
 def editTask():
     file = "%s.csv" % CURRENTUSER
+    csvfile = open(file,"r")
+    reader = csv.reader(csvfile)
+    counter = -1
+    for row in reader:
+        if row[0] != entTaskName.get() and row[1] != entDate.get():
+                counter = counter + 1      
+   
     df = pd.read_csv(file)
-    oldName = entTaskName.get()
-    oldDate = entDate.get()
-
-    desiredRow = (df['Task name'== oldName]&df['Task Date'== oldDate])
-    print(desiredRow)
-    df.at[desiredRow,'Task name']= entNewName.get()
-    df.at[desiredRow,'Task date']= entNewDate.get()
-    df.at[desiredRow,'Task duration']= entNewDur.get()
-    df.at[desiredRow,'Task description']= entNewDesc.get()
-
+    df.drop(counter, axis = 'index')
+    df.loc[len(df)]=[entNewName.get(),entNewDate.get(),entNewDur.get(),entNewDesc.get()]
     df.to_csv(file, index=False)
 
 #Search Task GUI
@@ -528,7 +538,7 @@ def searchTaskWin():
     btnExit.place(x=750,y=620)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnSearch = tk.Button(searchBody,text="Search",command=exit,width=10, height=2)
+    btnSearch = tk.Button(searchBody,text="Search",command=search,width=10, height=2)
     btnSearch.place(x=750,y=220)
     btnSearch.config(font=("Times New Roman", 28))
 
@@ -537,6 +547,7 @@ def searchTaskWin():
     lblTaskName.config(font=("Times New Roman",24))
     lblTaskName.place(x=50,y=175)
 
+    global entTaskName
     entTaskName = tk.Entry(searchBody)
     entTaskName.config(font=("Times New Roman", 20))
     entTaskName.place(x=50,y=225,width=300,height=60)
@@ -545,6 +556,7 @@ def searchTaskWin():
     lblDate.config(font=("Times New Roman",24))
     lblDate.place(x=50,y=325)
 
+    global entDate
     entDate = tk.Entry(searchBody)
     entDate.config(font=("Times New Roman", 20))
     entDate.place(x=50,y=375,width=200,height=60)
@@ -553,14 +565,16 @@ def searchTaskWin():
     lblNewName.config(font=("Times New Roman",24))
     lblNewName.place(x=50,y=475)
 
-    entNewName = tk.Entry(searchBody)
-    entNewName.config(font=("Times New Roman", 20))
-    entNewName.place(x=50,y=525,width=300,height=60)
+    global entDuration
+    entDuration = tk.Entry(searchBody)
+    entDuration.config(font=("Times New Roman", 20))
+    entDuration.place(x=50,y=525,width=300,height=60)
 
     lblNewDesc = tk.Label(searchBody,text="Task Description:")
     lblNewDesc.config(font=("Times New Roman",24))
     lblNewDesc.place(x=50,y=625)
 
+    global entNewDesc
     entNewDesc = tk.Entry(searchBody)
     entNewDesc.config(font=("Times New Roman", 20))
     entNewDesc.place(x=50,y=675,width=300,height=60)
@@ -569,10 +583,18 @@ def searchTaskWin():
     lblTasks.place(x = 500, y =150)
     lblTasks.config(font=("Times New Roman", 28))
 
+    global txtTasks
     txtTasks = tk.Text(searchBody, height=32, width=40)
     txtTasks.place(x=390, y = 220)
 
     searchWindow.mainloop()
+
+def search():
+    with open ('%s.csv' % CURRENTUSER) as file:
+        content = csv.reader(file)
+        for lines in content:
+            if(lines[0] == entTaskName.get() and lines[1] == entDate.get() and lines[2] == entDuration.get() and lines[3] == entNewDesc.get()):
+                txtTasks.insert(1.0, lines)
 
 #Login GUI
 loginwindow = tk.Tk()
