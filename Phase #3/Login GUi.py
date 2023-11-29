@@ -33,7 +33,6 @@ def exit():
 
 #Main Menu Window
 def mainMenuWindow():
-    #Main Menu Below
     mainWindow = tk.Tk()
     mainWindow.title("Main Menu")
     mainWindow.geometry("1500x750")
@@ -116,7 +115,6 @@ def adminMenu():
 
 #Add User GUI
 def addUserWin():
-
     addUserWindow = tk.Tk()
     addUserWindow.title("Add User")
     addUserWindow.geometry("1000x500")
@@ -176,10 +174,6 @@ def addUser():
         csvwriter.writerow(field)
     messagebox.showinfo("Add User Success",f"     Successfully Added New User     ")
 
-
-
-
-
 #Remove User Below
 def removeUserWin():
     removeUserWindow = tk.Tk()
@@ -226,13 +220,14 @@ def removeUserWin():
 
     removeUserWindow.mainloop()
 
-
+#Removes selected user and deletes their associated csv file
 def removeUser():
     df = pd.read_csv('users.csv')
     df = df.drop(df[df.username == entUsername.get()].index)
     df.to_csv('users.csv', index=False)
-
-
+    os.remove('%s.csv' % entUsername.get())
+    messagebox.showinfo("Remove User Success",f"     Successfully Removed User {entUsername}    ")
+    
 #Update Admin GUI
 def updateAdminWin():
     updateAdminWindow = tk.Tk()
@@ -263,6 +258,7 @@ def updateAdminWin():
     lblUsername.config(font=("Times New Roman",24))
     lblUsername.place(x=50,y=225)
 
+    global entUsername
     entUsername = tk.Entry(updateAdminBody)
     entUsername.config(font=("Times New Roman", 20))
     entUsername.place(x=50,y=275,width=400,height=60)
@@ -271,6 +267,7 @@ def updateAdminWin():
     lblPassword.config(font=("Times New Roman",24))
     lblPassword.place(x=50,y=350)
 
+    global entPassword
     entPassword = tk.Entry(updateAdminBody)
     entPassword.config(font=("Times New Roman", 20))
     entPassword.place(x=50,y=400,width=400,height=60)
@@ -287,7 +284,12 @@ def updateAdminWin():
 
 #Update Admin Function
 def updateAdmin():
-    pass
+    df = pd.read_csv('users.csv')#read
+    df.iat[0,1] = entUsername.get()
+    df.iat[0,2] = entPassword.get()
+    df.to_csv('users.csv', index=False)#set changes
+    messagebox.showinfo("Admin Update Success",f"     Successfully Updated Admin     ")
+
 #Add Task GUI
 def addTaskWin():
     addWindow = tk.Tk()
