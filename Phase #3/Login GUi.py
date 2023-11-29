@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import messagebox
 import csv
 
-
 def login():
     enteredUser = entUsername.get()
     enteredPassword = entPassword.get()
@@ -20,7 +19,7 @@ def login():
         loginwindow.destroy()
         adminMenu()
     elif(success and row[0]!='1'):
-        messagebox.showinfo("User Login Success","      Welcome      ")
+        messagebox.showinfo("User Login Success",f"      Welcome {enteredUser}     ")
         loginwindow.destroy()
         mainMenuWindow()
     else:
@@ -44,7 +43,7 @@ def mainMenuWindow():
 
     lblMainTitle = tk.Label(mainBody,text="Main Menu")
     lblMainTitle.config(font=("Times New Roman",40))
-    lblMainTitle.place(x=650,y=50)
+    lblMainTitle.place(x=630,y=50)
 
     btnExit = tk.Button(mainBody,text="Exit",command=exit,width=10)
     btnExit.place(x=635, y=650)
@@ -66,12 +65,12 @@ def mainMenuWindow():
     btnSearch.place(x=1075, y=550)
     btnSearch.config(font=("Times New Roman", 28))
 
-    lblUserList = tk.Label(mainBody, text="Calendar")
-    lblUserList.place(x = 200, y =200)
+    lblUserList = tk.Label(mainBody, text="Calendar", width=15)
+    lblUserList.place(x = 600, y =150)
     lblUserList.config(font=("Times New Roman", 28))
 
-    txtUserList = tk.Text(mainBody, height=10, width=25)
-    txtUserList.place(x=200, y = 300)
+    txtUserList = tk.Text(mainBody, height=20, width=142)
+    txtUserList.place(x=175, y = 200)
 
     mainWindow.mainloop()
 
@@ -116,6 +115,7 @@ def adminMenu():
 
 #Add User GUI
 def addUserWin():
+
     addUserWindow = tk.Tk()
     addUserWindow.title("Add User")
     addUserWindow.geometry("1000x500")
@@ -124,7 +124,7 @@ def addUserWin():
     addUserBody = tk.Frame(addUserWindow,bg='#536878',height=500,width=1000)
     addUserBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(addUserBody,text="Main Menu",command=adminMenu,width=10, height=2)
+    btnMainMenu = tk.Button(addUserBody,text="Admin Menu",command=exit,width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -189,7 +189,7 @@ def removeUserWin():
     removeUserBody = tk.Frame(removeUserWindow,bg='#536878',height=500,width=1000)
     removeUserBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(removeUserBody,text="Main Menu",command=adminMenu,width=10, height=2)
+    btnMainMenu = tk.Button(removeUserBody,text="Admin Menu",command=removeUserWindow.destroy,width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -241,7 +241,7 @@ def updateAdminWin():
     updateAdminBody = tk.Frame(updateAdminWindow,bg='#536878',height=500,width=1000)
     updateAdminBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(updateAdminBody,text="Main Menu",command=exit,width=10, height=2)
+    btnMainMenu = tk.Button(updateAdminBody,text="Admin Menu",command=updateAdminWindow.destroy,width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -296,7 +296,7 @@ def addTaskWin():
     addBody = tk.Frame(addWindow,bg='#536878',height=500,width=1000)
     addBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(addBody,text="Main Menu",command=exit,width=10, height=2)
+    btnMainMenu = tk.Button(addBody,text="Main Menu",command=addWindow.destroy,width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -356,7 +356,7 @@ def removeTaskWin():
     lblRemove.config(font=("Times New Roman",30))
     lblRemove.place(x=75,y=50)
 
-    btnMainMenu = tk.Button(removeBody,text="Main Menu",command=exit,width=10, height=2)
+    btnMainMenu = tk.Button(removeBody,text="Main Menu",command=removeWindow.destroy,width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -401,7 +401,7 @@ def editTaskWin():
     lblEdit.config(font=("Times New Roman",30))
     lblEdit.place(x=200,y=50)
 
-    btnMainMenu = tk.Button(editBody,text="Main Menu",command=exit,width=10, height=2)
+    btnMainMenu = tk.Button(editBody,text="Main Menu",command=editWindow.destroy,width=10, height=2)
     btnMainMenu.place(x=750,y=375)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -477,7 +477,7 @@ def searchTaskWin():
     lblEdit.config(font=("Times New Roman",30))
     lblEdit.place(x=200,y=50)
 
-    btnMainMenu = tk.Button(searchBody,text="Main Menu",command=exit,width=10, height=2)
+    btnMainMenu = tk.Button(searchBody,text="Main Menu",command=searchWindow.destroy,width=10, height=2)
     btnMainMenu.place(x=750,y=420)
     btnMainMenu.config(font=("Times New Roman", 28))
 
