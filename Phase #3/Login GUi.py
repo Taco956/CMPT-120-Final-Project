@@ -409,7 +409,6 @@ def removeTask():
     df = df.drop(df.loc[(df['Task Name'] == entTaskName.get()) & (df['Task Date'] == entDate.get())])
     df.to_csv('users.csv', index=False)
 
-
 #Edit Task GUI
 def editTaskWin():
     editWindow = tk.Tk()
