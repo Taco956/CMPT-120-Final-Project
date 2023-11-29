@@ -15,6 +15,10 @@ def login():
            break
         else:
            success = False
+    
+    global CURRENTUSER
+    CURRENTUSER = enteredUser
+
     if(success and row[0]=='1'):
         messagebox.showinfo("Admin Login Success",f"      Welcome {enteredUser}     ")
         loginwindow.destroy()
@@ -308,14 +312,15 @@ def addTaskWin():
     btnExit.place(x=750,y=350)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnAddUser = tk.Button(addBody,text="Add Task",command=exit,width=10, height=2)
-    btnAddUser.place(x=750,y=50)
-    btnAddUser.config(font=("Times New Roman", 28))
+    btnAddTask = tk.Button(addBody,text="Add Task",command=addTask,width=10, height=2)
+    btnAddTask.place(x=750,y=50)
+    btnAddTask.config(font=("Times New Roman", 28))
 
     lblTaskName = tk.Label(addBody,text="Task Name:")
     lblTaskName.config(font=("Times New Roman",24))
     lblTaskName.place(x=50,y=50)
 
+    global entTaskName
     entTaskName = tk.Entry(addBody)
     entTaskName.config(font=("Times New Roman", 20))
     entTaskName.place(x=50,y=100,width=400,height=60)
@@ -324,6 +329,7 @@ def addTaskWin():
     lblDate.config(font=("Times New Roman",24))
     lblDate.place(x=50,y=200)
 
+    global entDate
     entDate = tk.Entry(addBody)
     entDate.config(font=("Times New Roman", 20))
     entDate.place(x=50,y=250,width=150,height=60)
@@ -332,6 +338,7 @@ def addTaskWin():
     lblDuration.config(font=("Times New Roman",24))
     lblDuration.place(x=300,y=200)
 
+    global entDuration
     entDuration = tk.Entry(addBody)
     entDuration.config(font=("Times New Roman", 20))
     entDuration.place(x=300,y=250,width=300,height=60)
@@ -340,11 +347,18 @@ def addTaskWin():
     lblDesc.config(font=("Times New Roman",24))
     lblDesc.place(x=50,y=350)
 
+    global entDesc
     entDesc = tk.Entry(addBody)
     entDesc.config(font=("Times New Roman", 20))
     entDesc.place(x=50,y=400,width=600,height=60)
 
     addWindow.mainloop()
+
+def addTask():
+    file = "%s.csv" % CURRENTUSER
+    df = pd.read_csv(file)
+    df.loc[len(df)]=[entTaskName.get(),entDate.get(),entDuration.get(),entDesc.get()]
+    df.to_csv(file, index=False)
 
 #Remove Task GUI
 def removeTaskWin():
@@ -368,10 +382,9 @@ def removeTaskWin():
     btnExit.place(x=750,y=350)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnAddUser = tk.Button(removeBody,text="Remove Task",command=exit,width=10, height=2)
+    btnAddUser = tk.Button(removeBody,text="Remove Task",command=removeTask,width=10, height=2)
     btnAddUser.place(x=750,y=50)
     btnAddUser.config(font=("Times New Roman", 28))
-
 
     lblTaskName = tk.Label(removeBody,text="Task Name:")
     lblTaskName.config(font=("Times New Roman",24))
@@ -390,6 +403,12 @@ def removeTaskWin():
     entDate.place(x=50,y=375,width=400,height=60)
 
     removeWindow.mainloop()
+
+def removeTask():
+    df = pd.read_csv('%s.csv' % CURRENTUSER)
+    df = df.drop(df.loc[(df['Task Name'] == entTaskName.get()) & (df['Task Date'] == entDate.get())])
+    df.to_csv('users.csv', index=False)
+
 
 #Edit Task GUI
 def editTaskWin():
@@ -413,7 +432,7 @@ def editTaskWin():
     btnExit.place(x=750,y=550)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnEdit = tk.Button(editBody,text="Edit Task",command=exit,width=10, height=2)
+    btnEdit = tk.Button(editBody,text="Edit Task",command=editTask,width=10, height=2)
     btnEdit.place(x=750,y=200)
     btnEdit.config(font=("Times New Roman", 28))
 
@@ -421,6 +440,7 @@ def editTaskWin():
     lblTaskName.config(font=("Times New Roman",24))
     lblTaskName.place(x=50,y=175)
 
+    global entTaskName
     entTaskName = tk.Entry(editBody)
     entTaskName.config(font=("Times New Roman", 20))
     entTaskName.place(x=50,y=225,width=300,height=60)
@@ -429,6 +449,7 @@ def editTaskWin():
     lblDate.config(font=("Times New Roman",24))
     lblDate.place(x=450,y=175)
 
+    global entDate
     entDate = tk.Entry(editBody)
     entDate.config(font=("Times New Roman", 20))
     entDate.place(x=450,y=225,width=200,height=60)
@@ -437,6 +458,7 @@ def editTaskWin():
     lblNewName.config(font=("Times New Roman",24))
     lblNewName.place(x=50,y=375)
 
+    global entNewName
     entNewName = tk.Entry(editBody)
     entNewName.config(font=("Times New Roman", 20))
     entNewName.place(x=50,y=425,width=300,height=60)
@@ -445,6 +467,7 @@ def editTaskWin():
     lblNewDate.config(font=("Times New Roman",24))
     lblNewDate.place(x=450,y=375)
 
+    global entNewDate
     entNewDate = tk.Entry(editBody)
     entNewDate.config(font=("Times New Roman", 20))
     entNewDate.place(x=450,y=425,width=200,height=60)
@@ -453,6 +476,7 @@ def editTaskWin():
     lblNewDesc.config(font=("Times New Roman",24))
     lblNewDesc.place(x=50,y=550)
 
+    global entNewDesc
     entNewDesc = tk.Entry(editBody)
     entNewDesc.config(font=("Times New Roman", 20))
     entNewDesc.place(x=50,y=600,width=300,height=60)
@@ -461,11 +485,27 @@ def editTaskWin():
     lblNewDur.config(font=("Times New Roman",24))
     lblNewDur.place(x=450,y=550)
 
+    global entNewDur
     entNewDur = tk.Entry(editBody)
     entNewDur.config(font=("Times New Roman", 20))
     entNewDur.place(x=450,y=600,width=200,height=60)
 
     editWindow.mainloop()
+
+def editTask():
+    file = "%s.csv" % CURRENTUSER
+    df = pd.read_csv(file)
+    oldName = entTaskName.get()
+    oldDate = entDate.get()
+
+    desiredRow = (df['Task name'== oldName]&df['Task Date'== oldDate])
+    print(desiredRow)
+    df.at[desiredRow,'Task name']= entNewName.get()
+    df.at[desiredRow,'Task date']= entNewDate.get()
+    df.at[desiredRow,'Task duration']= entNewDur.get()
+    df.at[desiredRow,'Task description']= entNewDesc.get()
+
+    df.to_csv(file, index=False)
 
 #Search Task GUI
 def searchTaskWin():
