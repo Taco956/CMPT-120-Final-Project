@@ -4,6 +4,7 @@ from tkinter import messagebox
 import csv
 import pandas as pd
 
+#Login function
 def login():
     enteredUser = entUsername.get()
     enteredPassword = entPassword.get()
@@ -35,7 +36,7 @@ def exit():
     messagebox.showinfo("Exit","Thank you for using the application")
     quit()
 
-#Main Menu Window
+#Main Menu GUI
 def mainMenuWindow():
     mainWindow = tk.Tk()
     mainWindow.title("Main Menu")
@@ -53,19 +54,19 @@ def mainMenuWindow():
     btnExit.place(x=635, y=650)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnAdd = tk.Button(mainBody,text="Add",command=addTaskWin,width=11)
+    btnAdd = tk.Button(mainBody,text="Add",command=lambda:[mainWindow.destroy(),addTaskWin()],width=11)
     btnAdd.place(x=175, y=550)
     btnAdd.config(font=("Times New Roman", 28))
 
-    btnRemove = tk.Button(mainBody,text="Remove",command=removeTaskWin,width=11)
+    btnRemove = tk.Button(mainBody,text="Remove",command=lambda:[mainWindow.destroy(),removeTaskWin()],width=11)
     btnRemove.place(x=475, y=550)
     btnRemove.config(font=("Times New Roman", 28))
 
-    btnEdit = tk.Button(mainBody,text="Edit",command=editTaskWin,width=11)
+    btnEdit = tk.Button(mainBody,text="Edit",command=lambda:[mainWindow.destroy(),editTaskWin()],width=11)
     btnEdit.place(x=775, y=550)
     btnEdit.config(font=("Times New Roman", 28))
 
-    btnSearch = tk.Button(mainBody,text="Search",command=searchTaskWin,width=11)
+    btnSearch = tk.Button(mainBody,text="Search",command=lambda:[mainWindow.destroy(),searchTaskWin()],width=11)
     btnSearch.place(x=1075, y=550)
     btnSearch.config(font=("Times New Roman", 28))
 
@@ -78,7 +79,7 @@ def mainMenuWindow():
 
     mainWindow.mainloop()
 
-#Admin Window 
+#Admin Window GUI
 def adminMenu():
     adminWindow = tk.Tk()
     adminWindow.title("Admin Window")
@@ -92,15 +93,15 @@ def adminMenu():
     btnExit.place(x=550,y=250)
     btnExit.config(font=("Times New Roman", 28))
 
-    btnRemoveUser = tk.Button(adminBody,text="Remove User",command=removeUserWin,width=10)
+    btnRemoveUser = tk.Button(adminBody,text="Remove User",command=lambda:[adminWindow.destroy(),removeUserWin()],width=10)
     btnRemoveUser.place(x=550,y=50)
     btnRemoveUser.config(font=("Times New Roman", 28))
 
-    btnUpdateAdmin = tk.Button(adminBody,text="Update Admin",command=updateAdminWin,width=10)
+    btnUpdateAdmin = tk.Button(adminBody,text="Update Admin",command=lambda:[adminWindow.destroy(),updateAdminWin()],width=10)
     btnUpdateAdmin.place(x=300,y=50)
     btnUpdateAdmin.config(font=("Times New Roman", 28))
 
-    btnAddUser = tk.Button(adminBody,text="Add User",command=addUserWin,width=10)
+    btnAddUser = tk.Button(adminBody,text="Add User",command=lambda:[adminWindow.destroy(),addUserWin()],width=10)
     btnAddUser.place(x=50,y=50)
     btnAddUser.config(font=("Times New Roman", 28))
 
@@ -130,7 +131,7 @@ def addUserWin():
     addUserBody = tk.Frame(addUserWindow,bg='#536878',height=500,width=1000)
     addUserBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(addUserBody,text="Admin Menu",command=addUserWindow.destroy,width=10, height=2)
+    btnMainMenu = tk.Button(addUserBody,text="Admin Menu",command=lambda:[addUserWindow.destroy(),adminMenu()],width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -166,6 +167,7 @@ def addUserWin():
 
     addUserWindow.mainloop()
 
+#Add user function
 def addUser():
     rowCount=0
     with open('users.csv','a',newline='') as usercsv:
@@ -181,7 +183,7 @@ def addUser():
         csvwriter.writerow(field)
     messagebox.showinfo("Add User Success",f"     Successfully Added New User     ")
 
-#Remove User Below
+#Remove User GUI
 def removeUserWin():
     removeUserWindow = tk.Tk()
     removeUserWindow.title("Remove User")
@@ -191,7 +193,7 @@ def removeUserWin():
     removeUserBody = tk.Frame(removeUserWindow,bg='#536878',height=500,width=1000)
     removeUserBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(removeUserBody,text="Admin Menu",command=removeUserWindow.destroy,width=10, height=2)
+    btnMainMenu = tk.Button(removeUserBody,text="Admin Menu",command=lambda:[removeUserWindow.destroy(),adminMenu()],width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -245,7 +247,7 @@ def updateAdminWin():
     updateAdminBody = tk.Frame(updateAdminWindow,bg='#536878',height=500,width=1000)
     updateAdminBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(updateAdminBody,text="Admin Menu",command=updateAdminWindow.destroy,width=10, height=2)
+    btnMainMenu = tk.Button(updateAdminBody,text="Admin Menu",command=lambda:[updateAdminWindow.destroy(),adminMenu()],width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -307,7 +309,7 @@ def addTaskWin():
     addBody = tk.Frame(addWindow,bg='#536878',height=500,width=1000)
     addBody.grid(row=0,column=0)
 
-    btnMainMenu = tk.Button(addBody,text="Main Menu",command=addWindow.destroy,width=10, height=2)
+    btnMainMenu = tk.Button(addBody,text="Main Menu",command=lambda:[addWindow.destroy(),mainMenuWindow()],width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -357,11 +359,14 @@ def addTaskWin():
 
     addWindow.mainloop()
 
+#Add task function
 def addTask():
     file = "%s.csv" % CURRENTUSER
     df = pd.read_csv(file)
     df.loc[len(df)]=[entTaskName.get(),entDate.get(),entDuration.get(),entDesc.get()]
     df.to_csv(file, index=False)
+    messagebox.showinfo("Remove User Success","     Successfully Added Task    ")
+
 
 #Remove Task GUI
 def removeTaskWin():
@@ -377,7 +382,7 @@ def removeTaskWin():
     lblRemove.config(font=("Times New Roman",30))
     lblRemove.place(x=75,y=50)
 
-    btnMainMenu = tk.Button(removeBody,text="Main Menu",command=removeWindow.destroy,width=10, height=2)
+    btnMainMenu = tk.Button(removeBody,text="Main Menu",command=lambda:[removeWindow.destroy(),mainMenuWindow()],width=10, height=2)
     btnMainMenu.place(x=750,y=200)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -392,7 +397,8 @@ def removeTaskWin():
     lblTaskName = tk.Label(removeBody,text="Task Name:")
     lblTaskName.config(font=("Times New Roman",24))
     lblTaskName.place(x=50,y=175)
-
+    
+    global entTaskName
     entTaskName = tk.Entry(removeBody)
     entTaskName.config(font=("Times New Roman", 20))
     entTaskName.place(x=50,y=225,width=400,height=60)
@@ -401,12 +407,14 @@ def removeTaskWin():
     lblDate.config(font=("Times New Roman",24))
     lblDate.place(x=50,y=325)
 
+    global entDate
     entDate = tk.Entry(removeBody)
     entDate.config(font=("Times New Roman", 20))
     entDate.place(x=50,y=375,width=400,height=60)
 
     removeWindow.mainloop()
 
+#Remove task function
 def removeTask():
     counter = 0
     with open ('%s.csv' % CURRENTUSER) as file:
@@ -414,11 +422,12 @@ def removeTask():
         for lines in content:
             if(lines[0] != entTaskName.get() and lines[1] != entDate.get()):
                 counter = counter + 1
-    print(counter)
     counter = counter - 1
     df = pd.read_csv('%s.csv' % CURRENTUSER)
     df = df.drop(counter, axis = 'index')
     df.to_csv('%s.csv' % CURRENTUSER, index=False)
+    messagebox.showinfo("Remove User Success","     Successfully Removed Task    ")
+
 
 #Edit Task GUI
 def editTaskWin():
@@ -434,7 +443,7 @@ def editTaskWin():
     lblEdit.config(font=("Times New Roman",30))
     lblEdit.place(x=200,y=50)
 
-    btnMainMenu = tk.Button(editBody,text="Main Menu",command=editWindow.destroy,width=10, height=2)
+    btnMainMenu = tk.Button(editBody,text="Main Menu",command=lambda:[editWindow.destroy(),mainMenuWindow()],width=10, height=2)
     btnMainMenu.place(x=750,y=375)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -502,6 +511,7 @@ def editTaskWin():
 
     editWindow.mainloop()
 
+#Edit task function
 def editTask():
     file = "%s.csv" % CURRENTUSER
     csvfile = open(file,"r")
@@ -510,11 +520,12 @@ def editTask():
     for row in reader:
         if row[0] != entTaskName.get() and row[1] != entDate.get():
                 counter = counter + 1      
-   
     df = pd.read_csv(file)
-    df.drop(counter, axis = 'index')
+    df = df.drop(counter, axis = 'index')
     df.loc[len(df)]=[entNewName.get(),entNewDate.get(),entNewDur.get(),entNewDesc.get()]
     df.to_csv(file, index=False)
+    messagebox.showinfo("Remove User Success","     Successfully Edited Task    ")
+
 
 #Search Task GUI
 def searchTaskWin():
@@ -530,7 +541,7 @@ def searchTaskWin():
     lblEdit.config(font=("Times New Roman",30))
     lblEdit.place(x=200,y=50)
 
-    btnMainMenu = tk.Button(searchBody,text="Main Menu",command=searchWindow.destroy,width=10, height=2)
+    btnMainMenu = tk.Button(searchBody,text="Main Menu",command=lambda:[searchWindow.destroy(),mainMenuWindow()],width=10, height=2)
     btnMainMenu.place(x=750,y=420)
     btnMainMenu.config(font=("Times New Roman", 28))
 
@@ -589,12 +600,15 @@ def searchTaskWin():
 
     searchWindow.mainloop()
 
+#Search task function
 def search():
     with open ('%s.csv' % CURRENTUSER) as file:
         content = csv.reader(file)
         for lines in content:
             if(lines[0] == entTaskName.get() and lines[1] == entDate.get() and lines[2] == entDuration.get() and lines[3] == entNewDesc.get()):
                 txtTasks.insert(1.0, lines)
+    messagebox.showinfo("Remove User Success","     Successfully Displayed Tasks    ")
+
 
 #Login GUI
 loginwindow = tk.Tk()
