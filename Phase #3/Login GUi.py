@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import messagebox
 import csv
 import pandas as pd
+from PIL import Image, ImageTk
+from tkinter import Label
 
 def login():
     enteredUser = entUsername.get()
@@ -76,7 +78,14 @@ def mainMenuWindow():
     txtUserList = tk.Text(mainBody, height=20, width=142)
     txtUserList.place(x=175, y = 200)
 
+    image = Image.open('logo.jpg')
+    image = ImageTk.PhotoImage(image)
+    image_label = tk.Label(mainWindow, image=image, height=130, width=200)
+    image_label.place(x=1300, y =30)
+    
     mainWindow.mainloop()
+
+    
 
 #Admin Window 
 def adminMenu():
@@ -393,6 +402,7 @@ def removeTaskWin():
     lblTaskName.config(font=("Times New Roman",24))
     lblTaskName.place(x=50,y=175)
 
+    global entDate
     entTaskName = tk.Entry(removeBody)
     entTaskName.config(font=("Times New Roman", 20))
     entTaskName.place(x=50,y=225,width=400,height=60)
@@ -401,6 +411,7 @@ def removeTaskWin():
     lblDate.config(font=("Times New Roman",24))
     lblDate.place(x=50,y=325)
 
+    global entDate
     entDate = tk.Entry(removeBody)
     entDate.config(font=("Times New Roman", 20))
     entDate.place(x=50,y=375,width=400,height=60)
