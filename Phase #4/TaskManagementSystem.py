@@ -73,23 +73,30 @@ def mainMenuWindow():
     btnSearch.config(font=("Times New Roman", 28))
 
     lblWelcome = tk.Label(mainBody, text="Welcome to the TMS!", width=24)
-    lblWelcome.place(x = 140, y =230)
-    lblWelcome.config(font=("Times New Roman", 38))
+    lblWelcome.place(x = 140, y =140)
+    lblWelcome.config(font=("Times New Roman", 34))
 
-    lblChoose = tk.Label(mainBody, text="Please choose one of ", width=40)
-    lblChoose.place(x = 80, y =350)
-    lblChoose.config(font=("Times New Roman", 30))
+    lblTasks = tk.Label(mainBody, text="Current Tasks:", width=30)
+    lblTasks.place(x = 110, y =220)
+    lblTasks.config(font=("Times New Roman", 30))
 
-    lblChoose2 = tk.Label(mainBody, text="the following functions:", width=40)
-    lblChoose2.place(x = 80, y =400)
-    lblChoose2.config(font=("Times New Roman", 30))
+    global txtTasks
+    txtTasks = tk.Text(mainBody, height=8, width=48)
+    txtTasks.config(font=("Times New Roman", 20))
+    txtTasks.place(x= 105, y = 275)
 
     image = Image.open('bigtms.jpg')
     image = ImageTk.PhotoImage(image)
     image_label = tk.Label(mainWindow, image=image, height=300, width=500)
     image_label.place(x=900, y =160)
     
-
+    txtTasks.delete("1.0","end")
+    with open ('%s.csv' % CURRENTUSER) as file:
+        content = csv.reader(file)
+        for lines in content:
+            if(lines[0] != "Task Name"):
+                txtTasks.insert(1.0, f"\n{lines[0]}, {lines[1]}, {lines[2]} minutes, {lines[3]}")
+            
     
 
     mainWindow.mainloop()
@@ -618,48 +625,39 @@ def searchTaskWin():
 
     lblDate = tk.Label(searchBody,text="Task Date:")
     lblDate.config(font=("Times New Roman",24))
-    lblDate.place(x=50,y=325)
+    lblDate.place(x=450,y=175)
 
     global entDate
     entDate = tk.Entry(searchBody)
     entDate.config(font=("Times New Roman", 20))
-    entDate.place(x=50,y=375,width=200,height=60)
-
-    lblNewName = tk.Label(searchBody,text="Task Duration:")
-    lblNewName.config(font=("Times New Roman",24))
-    lblNewName.place(x=50,y=475)
-
-    global entDuration
-    entDuration = tk.Entry(searchBody)
-    entDuration.config(font=("Times New Roman", 20))
-    entDuration.place(x=50,y=525,width=300,height=60)
-
-    lblNewDesc = tk.Label(searchBody,text="Task Description:")
-    lblNewDesc.config(font=("Times New Roman",24))
-    lblNewDesc.place(x=50,y=625)
-
-    global entNewDesc
-    entNewDesc = tk.Entry(searchBody)
-    entNewDesc.config(font=("Times New Roman", 20))
-    entNewDesc.place(x=50,y=675,width=300,height=60)
+    entDate.place(x=450,y=225,width=200,height=60)
 
     lblTasks = tk.Label(searchBody, text="Tasks")
-    lblTasks.place(x = 500, y =150)
+    lblTasks.place(x = 350, y =340)
     lblTasks.config(font=("Times New Roman", 28))
 
     global txtTasks
-    txtTasks = tk.Text(searchBody, height=32, width=40)
-    txtTasks.place(x=390, y = 220)
+    txtTasks = tk.Text(searchBody, height=10, width=40)
+    txtTasks.config(font=("Times New Roman", 20))
+    txtTasks.place(x=100, y = 400)
+
+    lblOr = tk.Label(searchBody, text="OR")
+    lblOr.config(font=("Times New Roman", 20))
+    lblOr.place(x=380, y = 240)
 
     searchWindow.mainloop()
 
 #Search task function
 def search():
+    txtTasks.delete("1.0","end")
     with open ('%s.csv' % CURRENTUSER) as file:
         content = csv.reader(file)
         for lines in content:
-            if(lines[0] == entTaskName.get() and lines[1] == entDate.get() and lines[2] == entDuration.get() and lines[3] == entNewDesc.get()):
-                txtTasks.insert(1.0, lines)
+            if(lines[0] == entTaskName.get()):
+                txtTasks.insert(1.0, f"\n{lines[0]}, {lines[1]}, {lines[2]} minutes, {lines[3]}")
+            if(lines[1] == entDate.get()):
+                txtTasks.insert(1.0, f"\n{lines[0]}, {lines[1]}, {lines[2]} minutes, {lines[3]}")
+        
     messagebox.showinfo("Remove User Success","     Successfully Displayed Tasks    ")
 
 
@@ -706,3 +704,4 @@ btnExit.place(x=500,y=250)
 btnExit.config(font=("Times New Roman", 30))
 
 loginwindow.mainloop()
+
